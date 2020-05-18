@@ -116,29 +116,43 @@ function transformResponse() {
 // ERROR HANDLING
 function errorHandling() {
   axios.get('https://jsonplaceholder.typicode.com/todoss')
-    .then(res => showOutput(res))
-    .catch(err => {
-      if(err.response) {
-        // Server responded with a status other than 200 range
-        console.log(err.response.data);
-        console.log(err.response.status);
-        console.log(err.response.headers);
+  .then(res => showOutput(res))
+  .catch(err => {
+    if(err.response) {
+      // Server responded with a status other than 200 range
+      console.log(err.response.data);
+      console.log(err.response.status);
+      console.log(err.response.headers);
 
-        if (err.response.status === 404) {
-          alert('Error: Page not found :c');
-        }
-      } else if (err.request) {
-        // Request was made but no response
-        console.error(err.request);
-      } else {
-        console.error(err.message);
+      if (err.response.status === 404) {
+        alert('Error: Page not found :c');
       }
-    });
+    } else if (err.request) {
+      // Request was made but no response
+      console.error(err.request);
+    } else {
+      console.error(err.message); 
+    }
+  });
 }
 
 // CANCEL TOKEN
 function cancelToken() {
-  console.log('Cancel Token');
+  const source = axios.CancelToken.source();
+  
+  axios.get('https://jsonplaceholder.typicode.com/todos', {
+    cancelToken: source.token
+  })
+  .then(res => showOutput(res))
+  .catch(thrown =>  {
+    if(axios.isCancel(thrown)) {
+      console.log('Request canceled', thrown.message);
+    }
+  });
+
+  if(true) {
+    source.cancel('Request canceled!');
+  }
 }
 
 /*
