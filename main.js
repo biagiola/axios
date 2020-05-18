@@ -29,14 +29,24 @@ function addTodo() {
     .catch(err => console.error(err));
 }
 
+// PUT is to is usually meant to replace the entire 
+// and PATCH will update it incrementally, just replace
+// what we specified
 // PUT/PATCH REQUEST
 function updateTodo() {
-  console.log('PUT/PATCH Request');
+  axios.put('https://jsonplaceholder.typicode.com/todos/1', {
+      title: 'Updated Todo',
+      completed: true
+    })
+    .then(res => showOutput(res))
+    .catch(err => console.error(err));
 }
 
 // DELETE REQUEST
 function removeTodo() {
-  console.log('DELETE Request');
+  axios.delete('https://jsonplaceholder.typicode.com/todos/1')
+  .then(res => showOutput(res))
+  .catch(err => console.error(err));
 }
 
 // SIMULTANEOUS DATA
